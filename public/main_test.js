@@ -110,6 +110,41 @@ const beginGame = () => {
   showSum(playerHand, '.player-sum')
 }
 
+// const dealPlayerCard = () => {
+//   for (let z = 0; z < 2; z++) {
+//     const drawnCard = deck.pop()
+//     playerHand.push(drawnCard)
+
+//   }
+//   let playerSum = 0
+//   for (let i = 0; i < playerHand.length; i++) {
+//     playerSum += playerHand[i].value
+//   }
+
+//   document.querySelector('.player-sum').textContent = playerSum
+// }
+
+// const dealDealerCard = () => {
+//   for (let z = 0; z < 2; z++) {
+//     const drawnCard = deck.pop()
+//     dealerHand.push(drawnCard)
+//     const dealerCardLi = document.createElement('li')
+//     const img = document.createElement('img')
+//     img.src = './images/cards/' + drawnCard.imageUrl
+//     dealerCardLi.appendChild(img)
+//     document.querySelector('.dealer-hand').appendChild(dealerCardLi)
+//   }
+
+//   let dealerSum = 0
+//   for (let i = 0; i < dealerHand.length; i++) {
+//     dealerSum += dealerHand[i].value
+//   }
+//   document.querySelector('.dealer-sum').textContent = dealerSum
+
 document.addEventListener('DOMContentLoaded', main)
 
+// document
+//   .querySelector('button.deal-button')
+// .addEventListener('click', dealPlayerCard)
+// document.querySelector('button.shuffle').addEventListener('click', shuffle)
 document.querySelector('.stand-button').addEventListener('click', dealerPlays)
