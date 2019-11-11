@@ -18,41 +18,39 @@ body {
 
 h1 {
   text-align: center;
-  color: rgb(135, 135, 50);
-  font-size: 3rem;
+  color: rgb(236, 86, 16);
+  font-size: 4rem;
 }
 
 h2 {
+  color: white;
+  text-emphasis: bold;
+}
+
+.player-sum {
+  color: red;
   font-size: 2rem;
 }
 
-h3.player-number {
-  font-size: rem;
-}
-
-.player-number {
+.dealer-sum {
   color: red;
-  font-size: 3rem;
-}
-
-li {
-  list-style: none;
-}
-
-ul {
-  display: flex;
+  font-size: 2rem;
 }
 
 ul.player-hand {
   display: flex;
-  text-align: left;
-  align-content: left;
+  justify-content: flex-start;
+  flex-direction: row;
 }
 
 ul.dealer-hand {
   display: flex;
-  text-align: left;
-  align-content: left;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+li {
+  list-style: none;
 }
 
 footer {
@@ -71,7 +69,12 @@ footer {
   border-radius: 20%;
 }
 
-.shuffle-button {
+.replay-button {
   background: rgb(135, 135, 50);
   border-radius: 20%;
+}
+
+img {
+  height: 270px;
+  width: auto;
 }
