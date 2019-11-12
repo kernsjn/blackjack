@@ -22,14 +22,8 @@ const playerHand = []
 const dealerHand = []
 const show = true
 const hide = false
-let playerSum = 0
-let dealerSum = 0
-
-const enableHitButton = document.querySelector('.hit-button')
-const enableStandButton = document.querySelector('.stand-button')
-const enableReplayButton = document.querySelector('.replay-button')
-const disableDealerHitButton = document.querySelector('.dealer-hit-button')
-  .disabled
+// let playerSum = 0
+// let dealerSum = 0
 
 // get values of ranks using a if statement
 const getCardValue = rank => {
@@ -85,16 +79,20 @@ const showSum = (hand, sumContainer) => {
   let playerSum = 0
   for (let i = 0; i < hand.length; i++) {
     playerSum += hand[i].value
-    document.querySelector(sumContainer).textContent = playerSum
   }
+  document.querySelector(sumContainer).textContent = playerSum
+  return playerSum
 }
 
 const dealerPlays = () => {
+  console.log('dealerPlays')
   flipCard('.dealer-hand')
-  showSum(dealerHand, '.dealer-sum')
-  document.querySelector('.stand-button').disabled = true
+  while (showSum(dealerHand, '.dealer-sum') < 17) {
+    dealCard(deck, dealerHand, '.dealer-hand', show)
+  }
+  checkScore()
   document.querySelector('.hit-button').disabled = true
-  console.log(dealerPlays)
+  document.querySelector('.stand-button').disabled = true
 }
 
 const flipCard = imageContainer => {
@@ -116,36 +114,64 @@ const beginGame = () => {
   dealCard(deck, playerHand, '.player-hand', show)
   dealCard(deck, dealerHand, '.dealer-hand', hide)
 
-  showSum(playerHand, '.player-sum')
+  if (showSum(playerHand, '.player-sum') == 21) {
+    dealerPlays()
+  }
+}
+
+const checkScore = () => {
+  const playerSum = showSum(playerHand, '.player-sum')
+  const dealerSum = showSum(dealerHand, '.dealer-sum')
+  if (dealerSum > 21) {
+    document.querySelector('.winner').textContent = 'Player Wins'
+  } else if (playerSum > 21) {
+    document.querySelector('.winner').textContent = 'Dealer Wins'
+  } else if (dealerSum > playerSum) {
+    // check who has blackjack
+    document.querySelector('.winner').textContent = 'Dealer Wins'
+  } else if (dealerSum < playerSum) {
+    // check who has blackjack
+    document.querySelector('.winner').textContent = 'Player Wins'
+  } else if (dealerHand.length != playerHand.length && dealerSum === 21) {
+    // check who has blackjack
+    document.querySelector('.winner').textContent = 'Player Push'
+    if (dealerHand.length == 2) {
+      document.querySelector('.winner').textContent = 'Dealer Wins'
+    } else if (playerHand.length == 2) {
+      document.querySelector('.winner').textContent = 'Player Wins'
+    } else {
+      document.querySelector('.winner').textContent = 'Player Push'
+    }
+  } else {
+    document.querySelector('.winner').textContent = 'Player Push'
+  }
+  document.querySelector('.hit-button').disabled = true
+  document.querySelector('.stand-button').disabled = true
 }
 
 const hitPlayer = () => {
-  for (let n = 0; n < 1; n++) {
-    const hitPlayerHand = deck.pop()
-    playerHand.push(hitPlayerHand)
-    const playerHandLiTwo = document.createElement('li')
-    const imgTwo = document.createElement('img')
-    imgTwo.src = './images/cards/' + hitPlayerHand.imageUrl
-    playerHandLiTwo.appendChild(imgTwo)
-    document.querySelector('.player-hand').appendChild(playerHandLiTwo)
-    showSum(playerHand, '.player-sum')
-  }
-  if (playerHand > 21) {
-    document.querySelector('.player-sum').textContent = 'BUST'
-    document.querySelector('.dealer-sum').textContent = 'WINNER'
-    document.querySelector('.hit-button').disabled = true
-    document.querySelector('.dealer-hit-button').disabled = true
-    document.querySelector('.stand-button').disabled = true
-  } else if (showSum === 21) {
-    document.querySelector(h3).textContent = 'WINNER'
-    document.querySelector(h3).textContent = 'BUST'
+  const hitPlayerHand = deck.pop()
+  playerHand.push(hitPlayerHand)
+  const playerHandLiTwo = document.createElement('li')
+  const imgTwo = document.createElement('img')
+  imgTwo.src = './images/cards/' + hitPlayerHand.imageUrl
+  playerHandLiTwo.appendChild(imgTwo)
+  document.querySelector('.player-hand').appendChild(playerHandLiTwo)
+
+  const playerSum = showSum(playerHand, '.player-sum')
+  if (playerSum == 21) {
+    dealerPlays()
+  } else if (playerSum > 21) {
+    flipCard('.dealer-hand')
+    showSum(dealerHand, '.dealer-sum')
+    document.querySelector('.winner').textContent = 'Dealer Wins'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
   }
 }
 
 const hitDealer = () => {
-  for (let i = 0; i < 1; i++) {
+  for (let n = 0; n < 1; n++) {
     const hitDealerHand = deck.pop()
     dealerHand.push(hitDealerHand)
     const dealerHandLiTwo = document.createElement('li')
@@ -157,30 +183,6 @@ const hitDealer = () => {
   }
 }
 
-// while (dealerSum <= 17)
-if (dealerSum < 17) {
-  document.querySelector('.dealer-hit-button').disabled = false
-}
-if (dealerSum > 21) {
-  document.querySelector('.player-hand').textContent = 'WINNER'
-  document.querySelector('.dealer-hand').textContent = 'BUST'
-  document.querySelector('.hit-button').disabled = true
-  document.querySelector('.stand-button').disabled = true
-  document.querySelector('.deal-button').disabled = true
-} else if (dealerSum === 21) {
-  document.querySelector('.player-hand').textContent = 'BUST'
-  document.querySelector('.view-details').textContent = 'WINNER'
-  document.querySelector('.hit-button').disabled = true
-  document.querySelector('.stand-button').disabled = true
-  document.querySelector('.deal-button').disabled = true
-} else if (dealerSum > playerSum) {
-  document.querySelector('.player-hand').textContent = 'BUST'
-  document.querySelector('.dealer-hand').textContent = 'WINNER'
-  document.querySelector('.hit-button').disabled = true
-  document.querySelector('.stand-button').disabled = true
-  document.querySelector('.deal-button').disabled = true
-}
-
 const replay = () => {
   location.reload()
 }
@@ -188,7 +190,4 @@ const replay = () => {
 document.addEventListener('DOMContentLoaded', main)
 document.querySelector('.stand-button').addEventListener('click', dealerPlays)
 document.querySelector('.hit-button').addEventListener('click', hitPlayer)
-document
-  .querySelector('.dealer-hit-button')
-  .addEventListener('click', hitDealer)
 document.querySelector('.replay-button').addEventListener('click', replay)

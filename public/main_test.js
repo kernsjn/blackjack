@@ -172,8 +172,6 @@ const playerHits = (deckFrom, handTo, imageContainer, showHide) => {
 document.querySelector('.stand-button').disabled = true
 console.log(dealerPlays)
 
-
-
 // November 10, 2019
 const ranks = [
   'Ace',
@@ -237,9 +235,6 @@ const main = () => {
   beginGame()
 }
 
-const
-
-
 const beginGame = () => {
   dealCard(deck, playerHand, '.player-hand', show)
   dealCard(deck, dealerHand, '.dealer-hand', hide)
@@ -248,7 +243,6 @@ const beginGame = () => {
 
   showSum(playerHand, '.player-sum')
 }
-
 
 const dealCard = (deckFrom, handTo, imageContainer, showHide) => {
   handTo.push(deckFrom.pop())
@@ -300,12 +294,9 @@ const flipCard = imageContainer => {
   }
 }
 
-
-
 const replayGame = () => {
   const ReplayButton = 0
-  playerHand = 
-  dealerHand = null
+  playerHand = dealerHand = null
 
   document.querySelector('button.hit-button').disabled = false
   document.querySelector('button.stand-button').disabled = false
@@ -316,3 +307,27 @@ const replayGame = () => {
 document.querySelector('.stand-button').addEventListener('click', dealerPlays)
 document.querySelector('.replay-button').addEventListener('click', replayGame)
 document.addEventListener('DOMContentLoaded', main)
+
+// while (dealerSum <= 17)
+// if (dealerSum < 17) {
+//   document.querySelector('.dealer-hit-button').disabled = false
+// }
+// if (dealerSum > 21) {
+//   document.querySelector('.player-hand').textContent = 'WINNER'
+//   document.querySelector('.dealer-hand').textContent = 'BUST'
+//   document.querySelector('.hit-button').disabled = true
+//   document.querySelector('.stand-button').disabled = true
+//   document.querySelector('.deal-button').disabled = true
+// } else if (dealerSum === 21) {
+//   document.querySelector('.player-hand').textContent = 'BUST'
+//   document.querySelector('.view-details').textContent = 'WINNER'
+//   document.querySelector('.hit-button').disabled = true
+//   document.querySelector('.stand-button').disabled = true
+//   document.querySelector('.deal-button').disabled = true
+// } else if (dealerSum > playerSum && dealerSum <= 21) {
+//   document.querySelector('.player-hand').textContent = 'BUST'
+//   document.querySelector('.dealer-hand').textContent = 'WINNER'
+//   document.querySelector('.hit-button').disabled = true
+//   document.querySelector('.stand-button').disabled = true
+//   document.querySelector('.deal-button').disabled = true
+// }
